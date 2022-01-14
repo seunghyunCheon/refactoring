@@ -1,12 +1,28 @@
 <template lang="">
   <div>
     <ul>
-      <li v-for="item in this.$store.state.news" class="post">   
-        <div class="point">{{item.points}}</div>
+      <li v-for="item in listItems" class="post">   
+        <div class="point">{{item.points || 0}}</div>
         <div>
-          <a :href="item.url">{{item.title}}</a>  
+          <template v-if="item.url">
+            <a :href="item.url">
+              {{item.title}}
+            </a> 
+          </template> 
+          <template v-else>
+            <router-link :to="`item/${item.id}`">
+              {{ item.title }}
+            </router-link> 
+          </template> 
+
+
           <div class="userNames">
-            by <router-link :to="`/user/${item.user}`" class="userName">{{item.user}}</router-link>
+            by <router-link   
+                  v-if="item.user"
+                  :to="`/user/${item.user}`" class="userName">{{item.user}}</router-link>
+                <a :href="item.url" v-else>
+                  {{ item.domain }}
+                </a>
           </div>
         </div>
       </li>
@@ -16,15 +32,28 @@
 </template>
 <script>
 export default {
+  computed : {
+    listItems() {
+      const name = this.$route.name;
+      if (name === "news") {
+        return this.$store.state.news;
+      }else if(name === "ask") {
+        return this.$store.state.ask;
+      }else if(name === "jobs") {
+        return this.$store.state.jobs
+      }
+    }
+  },
   created() {
-    if(this.$route.path === "/news"){
+    if(this.$route.name === "news"){
       this.$store.dispatch("FETCH_NEWS")
-    }else if(this.$route.path === "ask"){
+    }else if(this.$route.name === "ask"){
       this.$store.dispatch("FETCH_ASK")
-    }else if(this.$route.path === "jobs"){
+    }else if(this.$route.name === "jobs"){
       this.$store.dispatch("FETCH_JOBS")
     }
    }
+   
 }
 </script>
 <style scoped>
