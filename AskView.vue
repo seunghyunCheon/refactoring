@@ -1,7 +1,17 @@
 <template lang="">
   <div>
-    asks
-    <div v-for="item in fetchedAsk">{{item}}</div>
+     <ul>
+      <li v-for="item in this.$store.state.ask" class="post">   
+        <div class="point">{{item.points}}</div>
+        <div>
+          <router-link :to="`item/${item.id}`"> {{item.title}}</router-link> 
+          <div class="userNames">
+            <small>{{item.time_ago}}</small>
+            by <router-link :to="`/user/${item.user}`" class="userName">{{item.user}}</router-link>
+          </div>
+        </div>
+      </li>
+    </ul>
   </div>
 </template>
 <script>
@@ -23,6 +33,29 @@ export default {
   }
 }
 </script>
-<style lang="">
+<style scoped>
+ul {
+  margin-top: 10px;
+  padding:0px;
+}
+.post {
+  list-style: none;
+  display :flex;
+  align-items: center;
+  border-bottom : 1px solid #828282;
+}
+
+.point{
+  width: 80px;
+  height: 60px;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  color: #42b883;
+}
+.userNames {
+  padding-top:2px;
+  font-size: 0.8rem;
+}
   
 </style>
