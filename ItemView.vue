@@ -1,20 +1,19 @@
 <template lang="">
   <div>
-    <!-- 질문 상세 정보 -->
+    <!-- 사용자 정보 -->
     <section>
-      <div class="user-container">
-        <div>
-          <i class="fas fa-user"></i>
-        </div>
-        <div class="user-description">
-          <router-link :to="`/user/${fetchedItem.user}`">
-            {{ fetchedItem.user}}
-          </router-link>
-          <div class="time">
-            {{ fetchedItem.time_ago}}
-          </div>
-        </div>
-      </div>
+      <UserProfile>
+        <!-- 상위 컴포넌트에서 slot은 div나 template에 묶어 써야한다 -->
+        <!-- 상위 컴포넌트의 slot은 name없이 하위는 name을 붙여줘서 정의. -->
+        <!-- <div slot="username">{{ fetchedItem.user }}</div> -->
+        <router-link slot="username" :to="`/user/${fetchedItem.user}`">
+          {{fetchedItem.user}}
+        </router-link>
+        <template slot="time"> {{ fetchedItem.time_ago }}</template>
+      </UserProfile>
+    </section>
+    <!-- 제목 -->
+    <section>
       <h2> {{ fetchedItem.title}} </h2>
     </section>
     <!-- 질문 댓글 -->
@@ -27,6 +26,7 @@
 </template>
 <script>
 import {mapGetters} from 'vuex'
+import UserProfile from '../components/UserProfile.vue'
 export default {
   computed: {
     ...mapGetters(['fetchedItem'])
@@ -34,6 +34,9 @@ export default {
   created() {
     const itemId = this.$route.params.id;
     this.$store.dispatch('FETCH_ITEM', itemId);
+  },
+  components: {
+    UserProfile,
   }
 }
 </script>
