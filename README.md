@@ -33,6 +33,6 @@ created vs navigation-guard
 created는 컴포넌트가 생성될 떄 실행하는 것이고 navigation-guard는 URL이 변경될 때 실행하는 것이다. 
 둘 중 먼저 실행되는 것은 후자이다.
 
-
+vuex 인스턴스와 router인스턴스는 vue에만 연결될 수 있기 때문에 vuex파일 및 routes파일에서 this키워드를 통해서 route, vuex를 접근할 수 없다. 때문에 이 파일들 안에서는 store객체나 router객체를 직접 불러와서 다루는 수밖에없다. 
 
 
