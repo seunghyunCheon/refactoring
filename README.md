@@ -28,11 +28,13 @@ props와 emit을 이용해서 이벤트를 작동시킬 수 있지만 컴포넌�
 mixin : vue에서 제공하는 컴포넌트 재사용가능하게 하는 유연한 기법. 하이오더 컴포넌트는 깊이가 깊어지면 복잡해지는반면에 mixin은 해당 mixin파일을 컴포넌트에 추가하는 것이기 때문에 구조를 보다 쉽게 볼 수 있다.
 
 데이터를 불러오는 건 보통 두가지 단계에서 진행한다. 
-created vs navigation-guard
+created vs router navigation-guard
 
-created는 컴포넌트가 생성될 떄 실행하는 것이고 navigation-guard는 URL이 변경될 때 실행하는 것이다. 
+created는 컴포넌트가 생성될 떄 실행하는 것이고 router navigation-guard는 URL이 변경될 때 실행하는 것이다. 
 둘 중 먼저 실행되는 것은 후자이다.
 
 vuex 인스턴스와 router인스턴스는 vue에만 연결될 수 있기 때문에 vuex파일 및 routes파일에서 this키워드를 통해서 route, vuex를 접근할 수 없다. 때문에 이 파일들 안에서는 store객체나 router객체를 직접 불러와서 다루는 수밖에없다. 
+
+router navigation guard에서 이벤트를 호출하고 이벤트를 종료하는 부분은 컴포넌트에서 정의해도 좋다. 왜냐하면 데이터를 비동기적으로 불러오는 단계는 시간이 오래 걸릴 수 있기 때문에 그 시간에 mounted가 됐을때 로딩이 끝날 수 있게 하는 것이다. 단 데이터가 정말 오래걸리는 경우에는 너무 빨리 로딩화면이 끝나기 때문에 이 상황에는 좋지 않음을 보인다. spinner와 loading과 같은 것들은 전역적으로 쓰기 때문에 컴포넌트마다 정의해주는 것보다는 mixin을 정의해서 mixin만 불러오는 식으로 사용해도 좋다.
 
 
